@@ -1,8 +1,8 @@
 FROM node:18.4.0-alpine
 #USER root
 
-WORKDIR /frontend
-COPY . /frontend
+WORKDIR /frontendWeb
+COPY . /frontendWeb
 RUN yarn install
 
 # uri 변수 형태로 받아서 url에 넣어 작동하도록 함
