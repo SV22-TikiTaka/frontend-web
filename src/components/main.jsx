@@ -1,5 +1,6 @@
 import React from 'react';
-import '../App.css'
+import '../App.css';
+import SendButton from './buttons/SendButton';
 
 
 function Main(){
@@ -7,6 +8,7 @@ function Main(){
     return (
       <div className='main'>
           TikiTaka
+          <SendButton>SEND!</SendButton>
       </div>
     )
 };
