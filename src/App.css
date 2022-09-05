@@ -1,3 +1,12 @@
+:root{
+  --main-pink: #FF8F8F;
+  --sub-pink: #FFD8D8;
+  --main-green: #779874;
+  --sub-green: #B3FFAC;
+  --sub-gray: #BBBBBB;
+  --main-gray: #8F8F8F;
+  --sub-gray : #EEEDED;
+}
 .App {
   text-align: center;
 }
