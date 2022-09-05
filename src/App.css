@@ -6,14 +6,25 @@
   --sub-gray: #BBBBBB;
   --main-gray: #8F8F8F;
   --sub-gray : #EEEDED;
+  
 }
 .App {
   text-align: center;
+  font-family: 'Anton';
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+
+@font-face {
+  font-family: 'Anton';
+  font-display: fallback;
+src: url('./fonts/anton.ttf');
+font-style: normal;
+font-weight: 400;
 }
 
 @media (prefers-reduced-motion: no-preference) {
