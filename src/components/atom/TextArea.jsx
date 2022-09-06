@@ -1,19 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledInput= styled.input`
-  margin: 0rem 0rem 1.5rem 0rem;
-  border-radius: 3rem;
-  padding: 1rem 2rem;
+const StyledInput= styled.textarea`
+  margin: 1rem 0rem 0rem 0rem;
+  border-radius: 1rem;
+  padding: 1rem 1rem 1rem 1rem;
   border: none;
-  width: 10rem;
+  width: 19rem;
+  height: 6rem;
   font-family: Cormorant;
   font-size: 0.9rem;
   font-weight: semi-bold;
   font-family:Anton;
+  resize: none;
 `;
 
-function Input(props){
+function TextArea(props){
     
     return (
     <div>
@@ -23,4 +25,4 @@ function Input(props){
     )    
   }
 
-  export default Input;
+  export default TextArea;

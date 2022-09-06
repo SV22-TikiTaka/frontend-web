@@ -1,23 +1,19 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import SendButton from '../atom/SendButton';
-import Input from '../atom/Input';
+import TextArea from '../atom/TextArea';
 
-const StyledBox = styled.div`
-  margin: 3rem auto;
-  background-color: white;
-  border-radius: 1.5rem;
-  padding-top: 2.5rem;
-  padding-bottom: 1.5rem;
-  width: 24rem;
-  height: 15rem;
-  
+const StyledContainer = styled.div`
+    margin: 6rem auto;
+    background-color: white;
+    border-radius: 1.5rem;
+    width: 24rem;
 `;
 
 const StyledHeader = styled.div`
-    display: flex;
-    background:white;
-
+    background-color: var(--main-pink);
+    height: 6rem;
+    border-radius: 1.5rem 1.5rem 0rem 0rem;
 `;
 
 
@@ -27,11 +23,12 @@ function MessageBox(){
         message :''
     })
     return(
-        <StyledBox>
-        <Input name="LET ME KNOW WHAT YOU THINK..." type="text" onChange={(e) => setInput({...input,"message":e.target.value})}></Input>
+        <StyledContainer>
+            <StyledHeader></StyledHeader>
+            <TextArea name="LET ME KNOW WHAT YOU THINK..." type="text" onChange={(e) => setInput({...input,"message":e.target.value})}></TextArea>
 
-        <SendButton>SEND!</SendButton>
-        </StyledBox>
+            <SendButton>SEND!</SendButton>
+        </StyledContainer>
     )
     }
 
