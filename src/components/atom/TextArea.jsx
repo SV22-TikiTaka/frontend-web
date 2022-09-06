@@ -7,12 +7,16 @@ const StyledInput= styled.textarea`
   padding: 1rem 1rem 1rem 1rem;
   border: none;
   width: 19rem;
-  height: 6rem;
+  height: 5rem;
   font-family: Cormorant;
   font-size: 0.9rem;
   font-weight: semi-bold;
   font-family:Anton;
   resize: none;
+  background-color: transparent;
+  &:focus{
+    outline:none;
+  } 
 `;
 
 function TextArea(props){
