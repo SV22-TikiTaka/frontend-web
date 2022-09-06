@@ -1,15 +1,13 @@
 import React from 'react';
 import '../App.css';
-import SendButton from './buttons/SendButton';
-import DownloadApp from './buttons/DownloadApp';
-
+import DownloadApp from './atom/DownloadApp';
+import MessageBox from './box/MessageBox';
 
 function Main(){
 
     return (
-      <div className='main'>
-          TikiTaka
-          <SendButton>SEND!</SendButton>
+      <div className='Main'>
+          <MessageBox></MessageBox>
           <DownloadApp>DOWNLOAD APP!</DownloadApp>
       </div>
     )

@@ -3,25 +3,18 @@
   --sub-pink: #FFD8D8;
   --main-green: #779874;
   --sub-green: #B3FFAC;
-  --sub-gray: #BBBBBB;
   --main-gray: #8F8F8F;
   --sub-gray : #EEEDED;
-  
+  background-color: var(--sub-pink);
 }
 .App {
   text-align: center;
   font-family: 'Anton';
+  height: 100vh;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 
 @font-face {
   font-family: 'Anton';
-  font-display: fallback;
 src: url('./fonts/anton.ttf');
 font-style: normal;
 font-weight: 400;
