@@ -1,16 +1,16 @@
 import React from 'react';
 import '../App.css';
-import DownloadApp from './atom/DownloadApp';
-import MessageBox from './box/MessageBox';
+import DownloadApp from '../atom/DownloadApp';
+import MessageBox from '../box/MessageBox';
 
-function Main(){
+function Message(){
 
     return (
-      <div className='Main'>
+      <div className='Message'>
           <MessageBox></MessageBox>
           <DownloadApp>DOWNLOAD APP!</DownloadApp>
       </div>
     )
 };
 
-export default Main;
+export default Message;
