@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+import '../../App.css';
 import DownloadApp from '../atom/DownloadApp';
 import MessageBox from '../box/MessageBox';
 
