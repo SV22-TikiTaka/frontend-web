@@ -5,7 +5,7 @@
   --sub-green: #B3FFAC;
   --main-gray: #8F8F8F;
   --sub-gray : #EEEDED;
-  background-color: var(--sub-pink);
+  background: linear-gradient(var(--main-pink), var(--sub-green));
 }
 .App {
   text-align: center;
