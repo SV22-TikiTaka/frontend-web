@@ -47,13 +47,13 @@ const Buttons = styled.div`
   background: transparent;
   border: none;
   & button {
-    width: 150px;
-    background-color: #00ccff;
+    width: 100px;
+    background-color: #ff7979;
     font-size: 18px;
     font-weight: 700;
     height: 50px;
     border: none;
-    border-radius: 50px;
+    border-radius: 15px;
     padding: 15px 15px;
     margin: 15px;
     cursor: pointer;
@@ -168,15 +168,15 @@ function MessageBox() {
           </StyledContainer>
         )}
       </AnimatePresence>
-      <Buttons focus={visible}>
+      <Buttons>
         <button
-          style={{ color: currentFocus == "코멘트" ? "green" : "white" }}
+          style={{ color: currentFocus == "코멘트" ? "yellow" : "white" }}
           onClick={goComment}
         >
           코멘트
         </button>
         <button
-          style={{ color: currentFocus == "음성" ? "green" : "white" }}
+          style={{ color: currentFocus == "음성" ? "yellow" : "white" }}
           onClick={goSound}
         >
           음성
