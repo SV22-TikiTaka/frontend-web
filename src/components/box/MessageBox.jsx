@@ -48,7 +48,6 @@ const Buttons = styled.div`
   border: none;
   & button {
     width: 150px;
-    color: white;
     background-color: #00ccff;
     font-size: 18px;
     font-weight: 700;
@@ -89,12 +88,15 @@ function MessageBox() {
   const [input, setInput] = useState({
     message: "",
   });
+  const [currentFocus, setCurrentFocus] = useState("코멘트");
   const [visible, setVisible] = useState(0); // 0: 코멘트 1: 음성
   const goComment = () => {
     setVisible(0);
+    setCurrentFocus("코멘트");
   };
   const goSound = () => {
     setVisible(1);
+    setCurrentFocus("음성");
   };
   return (
     <>
@@ -166,9 +168,19 @@ function MessageBox() {
           </StyledContainer>
         )}
       </AnimatePresence>
-      <Buttons>
-        <button onClick={goComment}>코멘트</button>
-        <button onClick={goSound}>음성</button>
+      <Buttons focus={visible}>
+        <button
+          style={{ color: currentFocus == "코멘트" ? "green" : "white" }}
+          onClick={goComment}
+        >
+          코멘트
+        </button>
+        <button
+          style={{ color: currentFocus == "음성" ? "green" : "white" }}
+          onClick={goSound}
+        >
+          음성
+        </button>
       </Buttons>
     </>
   );
