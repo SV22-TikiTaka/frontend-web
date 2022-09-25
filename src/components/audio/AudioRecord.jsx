@@ -7,7 +7,7 @@ function AudioRecord() {
   const [source, setSource] = useState();
   const [analyser, setAnalyser] = useState();
   const [audioUrl, setAudioUrl] = useState();
-  const [disabled, setDisabled] = useState(true); // 😀😀😀
+  const [disabled, setDisabled] = useState(true);
 
   const Button = styled.button`
     padding: 15px 25px;
@@ -111,11 +111,11 @@ function AudioRecord() {
   };
 
   const play = () => {
-    const audio = new Audio(URL.createObjectURL(audioUrl)); // 😀😀😀
+    const audio = new Audio(URL.createObjectURL(audioUrl)); // 여기에서 출력된 링크에서 녹음된 오디오 확인가능
     audio.loop = false;
     audio.volume = 1;
     audio.play();
-    console.log(audio);
+    console.log(audio); //이걸 서버로 보내면 될꺼같은데,,
   };
 
   // 😀😀😀
