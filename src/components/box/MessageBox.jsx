@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SendButton from "../atom/SendButton";
 import TextArea from "../atom/TextArea";
 import { motion, AnimatePresence } from "framer-motion";
+import AudioRecord from "../audio/AudioRecord";
 const StyledContainer = styled(motion.div)`
   margin: 0 auto;
   background-color: rgba(255, 255, 255, 0.5);
@@ -153,16 +154,11 @@ function MessageBox() {
                 alt="logo"
               />
               <InfoContainer>
-                <div>난 음성이야</div>
                 <StyledInfo>@tikitaka</StyledInfo>
                 <StyledInfo>The question goes here.</StyledInfo>
               </InfoContainer>
             </StyledHeader>
-            <TextArea
-              name="LET ME KNOW WHAT YOU THINK..."
-              type="text"
-              onChange={(e) => setInput({ ...input, message: e.target.value })}
-            ></TextArea>
+            <AudioRecord />
 
             <SendButton>SEND!</SendButton>
           </StyledContainer>
