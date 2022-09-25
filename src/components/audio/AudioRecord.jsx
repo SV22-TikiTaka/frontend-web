@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
+import { AiFillAudio, AiFillCaretRight } from "react-icons/ai";
 function AudioRecord() {
   const [stream, setStream] = useState();
   const [media, setMedia] = useState();
@@ -10,23 +11,27 @@ function AudioRecord() {
   const [disabled, setDisabled] = useState(true);
 
   const Button = styled.button`
-    padding: 15px 25px;
+    padding: 10px 20px;
     border-radius: 15px;
     border: none;
     margin-right: 15px;
     margin-top: 30px;
     padding: 1rem auto;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    background-color: black;
-    border: none;
-    color: white;
-    font-size: 1rem;
-    border-radius: 1.2rem;
-    font-family: "Anton";
 
-    &: hover {
-      scale: 1.05;
-      opacity: 0.8;
+         
+         
+background-color: transparent;
+    color: black;
+    font-size: 1.3rem;
+    border-radius: 1.2rem;
+    font-weight:"600"
+    font-family: "Anton";
+    &:hover {
+      scale: 1.2;
+    }
+    & span {
+      display: flex;
+      align-items: center;
     }
   `;
   const onRecAudio = () => {
@@ -121,9 +126,13 @@ function AudioRecord() {
   // 😀😀😀
   return (
     <>
-      <Button onClick={onRec ? onRecAudio : offRecAudio}>녹음하기</Button>
+      <Button onClick={onRec ? onRecAudio : offRecAudio}>
+        <AiFillAudio size={25} />
+        <span>녹음하기</span>
+      </Button>
       <Button onClick={play} disabled={disabled}>
-        재생하기
+        <AiFillCaretRight size={25} />
+        <span>재생하기</span>
       </Button>
     </>
   );
