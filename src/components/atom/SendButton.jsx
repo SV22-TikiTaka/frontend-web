@@ -13,6 +13,10 @@ const StyledSend = styled.button`
   font-size: 1rem;
   border-radius: 1.2rem;
   font-family: "Anton";
+  &: hover {
+    scale: 1.05;
+    opacity: 0.8;
+  }
 `;
 
 function SendButton({ disabled, children }) {

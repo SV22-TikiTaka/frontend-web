@@ -59,6 +59,10 @@ const Buttons = styled.div`
     margin: 15px;
     cursor: pointer;
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.25);
+    :hover {
+      scale: 1.05;
+      opacity: 0.8;
+    }
   }
 `;
 

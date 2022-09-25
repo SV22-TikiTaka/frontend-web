@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-
+import styled from "styled-components";
 function AudioRecord() {
   const [stream, setStream] = useState();
   const [media, setMedia] = useState();
@@ -9,6 +9,26 @@ function AudioRecord() {
   const [audioUrl, setAudioUrl] = useState();
   const [disabled, setDisabled] = useState(true); // 😀😀😀
 
+  const Button = styled.button`
+    padding: 15px 25px;
+    border-radius: 15px;
+    border: none;
+    margin-right: 15px;
+    margin-top: 30px;
+    padding: 1rem auto;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    background-color: black;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    border-radius: 1.2rem;
+    font-family: "Anton";
+
+    &: hover {
+      scale: 1.05;
+      opacity: 0.8;
+    }
+  `;
   const onRecAudio = () => {
     setDisabled(true); // 😀😀😀
 
@@ -95,15 +115,16 @@ function AudioRecord() {
     audio.loop = false;
     audio.volume = 1;
     audio.play();
+    console.log(audio);
   };
 
   // 😀😀😀
   return (
     <>
-      <button onClick={onRec ? onRecAudio : offRecAudio}>녹음</button>
-      <button onClick={play} disabled={disabled}>
-        재생
-      </button>
+      <Button onClick={onRec ? onRecAudio : offRecAudio}>녹음하기</Button>
+      <Button onClick={play} disabled={disabled}>
+        재생하기
+      </Button>
     </>
   );
 }
