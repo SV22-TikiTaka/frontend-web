@@ -13,4 +13,7 @@ RUN yarn --ignore-platform
 COPY . ./
 
 # build file을 개발용에서는 불러오지 않기 때문에 개발용에서는 npm start 가능
-RUN yarn run build
+RUN yarn build
+RUN yarn global add serve
+# local 에서는 위에 2개 대신 아래 코드만
+# RUN yarn run build
