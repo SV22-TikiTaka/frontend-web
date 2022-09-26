@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { AiFillAudio, AiFillCaretRight } from "react-icons/ai";
+import axios from 'axios';
+
 function AudioRecord() {
   const [stream, setStream] = useState();
   const [media, setMedia] = useState();
@@ -105,10 +107,12 @@ background-color: transparent;
     }
 
     // File 생성자를 사용해 파일로 변환
-    const sound = new File([audioUrl], "soundBlob", {
+    const sound = new File([audioUrl], "soundBlob".concat('.wav'), {
       lastModified: new Date().getTime(),
       type: "audio",
     });
+
+    postSoundFileToBack(sound, 1);
 
     // 😀😀😀
     setDisabled(false);
@@ -122,6 +126,26 @@ background-color: transparent;
     audio.play();
     console.log(audio); //이걸 서버로 보내면 될꺼같은데,,
   };
+
+  const postSoundFileToBack = (soundFile, question_id) => {
+    const formData = new FormData();
+    formData.append('UploadFile', soundFile);
+    formData.append('question_id', question_id);
+    const heders = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
+      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    };
+    axios
+      .post("http://localhost:8000/api/v1/comments/voice", formData, heders)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => console.log(error));
+  };
+
+  
 
   // 😀😀😀
   return (
