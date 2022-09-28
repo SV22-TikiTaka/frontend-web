@@ -12,9 +12,9 @@ const StyledDownload = styled.button`
   color: black;
   font-size: 1rem;
   border-radius: 1.1rem;
-  font-family: "Anton";
+  font-family: SBAggro;
   position: fixed;
-  bottom: 100px;
+  bottom: 3rem;
   left: 50%;
   margin-left: -6rem;
 `;

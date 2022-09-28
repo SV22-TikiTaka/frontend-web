@@ -11,7 +11,7 @@ const StyledInput= styled.textarea`
   font-family: Cormorant;
   font-size: 0.9rem;
   font-weight: semi-bold;
-  font-family:Anton;
+  font-family:SBAggro;
   resize: none;
   background-color: transparent;
   &:focus{
