@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { AiFillAudio, AiFillCaretRight } from "react-icons/ai";
 import axios from 'axios';
 
-const sendTextCommentUrl = process.env.REACT_APP_API_URL + "comments/voice";
+const sendSoundCommentUrl = process.env.REACT_APP_API_URL + "comments/voice";
 
 function AudioRecord({question_id}, ref) {
   const [stream, setStream] = useState();
@@ -139,7 +139,7 @@ function AudioRecord({question_id}, ref) {
       'Content-type': 'multipart/form-data',
     };
     axios
-      .post(sendTextCommentUrl, formData, headers)
+      .post(sendSoundCommentUrl, formData, headers)
       .then(response => {
         console.log(response);
       })

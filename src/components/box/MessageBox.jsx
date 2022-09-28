@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import SendButton from "../atom/SendButton";
 import TextArea from "../atom/TextArea";
 import { motion, AnimatePresence } from "framer-motion";
 import AudioRecord from "../audio/AudioRecord";
+import axios from "axios";
 const StyledContainer = styled(motion.div)`
   margin: 0 auto;
   background-color: rgba(255, 255, 255, 0.5);
@@ -89,16 +90,23 @@ const container = {
   }),
 };
 
+const sendTextCommentUrl = process.env.REACT_APP_API_URL + "comments/text";
+
 function MessageBox() {
-  const [input, setInput] = useState({
-    message: "",
-  });
+  const [input, setInput] = useState('');
   const [currentFocus, setCurrentFocus] = useState("코멘트");
   const audioRef = useRef();
+  const question_id = useRef();
   const [visible, setVisible] = useState(0); // 0: 코멘트 1: 음성
+
+  useEffect(() => {
+    question_id.current = 2;
+  },[])
+
   const goComment = () => {
     setVisible(0);
     setCurrentFocus("코멘트");
+    setInput('');
   };
   const goSound = () => {
     setVisible(1);
@@ -106,7 +114,21 @@ function MessageBox() {
   };
 
   const sendTextButtonClick = () => {
-    console.log('helloText');
+    if (input === '') {
+      alert("내용을 적어주세요!");
+      return;
+    }
+    const data = {
+      "content": input,
+      "question_id": question_id.current
+    }
+    console.log(data);
+    axios
+      .post(sendTextCommentUrl, data)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => console.log(error));
   };
 
   const sendSoundButtonClick = () => {
@@ -143,7 +165,7 @@ function MessageBox() {
             <TextArea
               name="LET ME KNOW WHAT YOU THINK..."
               type="text"
-              onChange={(e) => setInput({ ...input, message: e.target.value })}
+              onChange={(e) => setInput(e.target.value)}
             ></TextArea>
 
             <SendButton
@@ -176,7 +198,7 @@ function MessageBox() {
                 <StyledInfo>The question goes here.</StyledInfo>
               </InfoContainer>
             </StyledHeader>
-            <AudioRecord ref={audioRef} question_id={1 /* 변수로 바꾸기 */ } />
+            <AudioRecord ref={audioRef} question_id={question_id.current} />
 
             <SendButton sendButtonClick={() => { sendSoundButtonClick() }} >
               SEND!
