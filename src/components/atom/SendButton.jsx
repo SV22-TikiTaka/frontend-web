@@ -10,9 +10,9 @@ const StyledSend = styled.button`
   background-color: black;
   border: none;
   color: white;
-  font-size: 1rem;
+  font-size: 0.9rem;
   border-radius: 1.2rem;
-  font-family: "Anton";
+  font-family: SBAggro;
   &: hover {
     scale: 1.05;
     opacity: 0.8;

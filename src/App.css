@@ -9,13 +9,13 @@
 }
 .App {
   text-align: center;
-  font-family: 'Anton';
+  font-family: 'SBAggro';
   height: 100vh;
 }
 
 @font-face {
-  font-family: 'Anton';
-src: url('./fonts/anton.ttf');
+  font-family: 'SBAggro';
+src: url('./fonts/SBAggroL.ttf');
 font-style: normal;
 font-weight: 400;
 }

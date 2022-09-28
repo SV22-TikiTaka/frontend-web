@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import {useParams, useNavigate} from 'react-router-dom';
 import styled from "styled-components";
 import SendButton from "../atom/SendButton";
 import TextArea from "../atom/TextArea";
@@ -91,27 +92,81 @@ const container = {
 };
 
 const sendTextCommentUrl = process.env.REACT_APP_API_URL + "comments/text";
+const getQuestionDataUrl = process.env.REACT_APP_API_URL + "questions/url/?question_id=";
+const getUserInfoUrl = process.env.REACT_APP_API_URL + "users/";
 
 function MessageBox() {
   const [input, setInput] = useState('');
-  const [currentFocus, setCurrentFocus] = useState("코멘트");
+  const [username, setUsername] = useState();
+  const [imgUrl, setImgUrl] = useState();
+  const [questionContent, setQuestionContent] = useState();
+  // const [currentFocus, setCurrentFocus] = useState("코멘트");
   const audioRef = useRef();
   const question_id = useRef();
-  const [visible, setVisible] = useState(0); // 0: 코멘트 1: 음성
+  const [visible, setVisible] = useState(); // 0: 코멘트 1: 음성
+  const param = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    question_id.current = 2;
+    question_id.current = param.questionId;
+    setQuestionData();
   },[])
 
   const goComment = () => {
     setVisible(0);
-    setCurrentFocus("코멘트");
+    // setCurrentFocus("코멘트");
     setInput('');
   };
   const goSound = () => {
     setVisible(1);
-    setCurrentFocus("음성");
+    // setCurrentFocus("음성");
   };
+
+  const setQuestionData = () => {
+    if (question_id.current === undefined) {
+      return;
+    }
+    console.log(getQuestionDataUrl+question_id.current);
+    axios
+      .get(getQuestionDataUrl+question_id.current)
+      .then(response => {
+        // response.data.user_id 로 userName 확인
+        const data = response.data;
+        const commentType = data.comment_type;
+        console.log(data);
+        // if(data.expired)
+        checkInstaId(data.user_id);
+        if (commentType === "text") {
+          goComment();
+        }
+        else if (commentType === "sound") {
+          goSound();
+        }
+        setQuestionContent(data.content);
+      })
+      .catch(error => {
+        goToMainPage();
+      });
+  };
+
+  // url의 username이 옳지 않으면 메인페이지로 이동
+  function checkInstaId(user_id){
+    axios
+      .get(getUserInfoUrl+user_id)
+      .then(response => {
+        setUsername(response.data.username);
+        setImgUrl(response.data.profile_image_url)
+        if (response.data.insta_id !== param.insta_id) {
+          goToMainPage();
+        }
+      })
+      .catch(error => console.log(error));
+  }
+
+  function goToMainPage() {
+    alert("잘못된 접근입니다.");
+    navigate('/');//메인페이지로 이동
+  }
 
   const sendTextButtonClick = () => {
     if (input === '') {
@@ -154,12 +209,12 @@ function MessageBox() {
                   height: "3.8rem",
                   flex: "1",
                 }}
-                src={process.env.PUBLIC_URL + "/logo192.png"}
-                alt="logo"
+                src={imgUrl}
+                alt="img"
               />
               <InfoContainer>
-                <StyledInfo>@tikitaka</StyledInfo>
-                <StyledInfo>The question goes here.</StyledInfo>
+                <StyledInfo>{username}</StyledInfo>
+                <StyledInfo>{questionContent}</StyledInfo>
               </InfoContainer>
             </StyledHeader>
             <TextArea
@@ -190,12 +245,12 @@ function MessageBox() {
                   height: "3.8rem",
                   flex: "1",
                 }}
-                src={process.env.PUBLIC_URL + "/logo192.png"}
-                alt="logo"
+                src={imgUrl}
+                alt="img"
               />
               <InfoContainer>
-                <StyledInfo>@tikitaka</StyledInfo>
-                <StyledInfo>The question goes here.</StyledInfo>
+                  <StyledInfo>{username}</StyledInfo>
+                  <StyledInfo>{questionContent}</StyledInfo>
               </InfoContainer>
             </StyledHeader>
             <AudioRecord ref={audioRef} question_id={question_id.current} />
@@ -206,7 +261,7 @@ function MessageBox() {
           </StyledContainer>
         )}
       </AnimatePresence>
-      <Buttons>
+      {/* <Buttons>
         <button
           style={{ color: currentFocus === "코멘트" ? "yellow" : "white" }}
           onClick={goComment}
@@ -219,7 +274,7 @@ function MessageBox() {
         >
           음성
         </button>
-      </Buttons>
+      </Buttons> */}
     </>
   );
 }

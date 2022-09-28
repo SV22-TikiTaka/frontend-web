@@ -26,13 +26,14 @@ function AudioRecord({question_id}, ref) {
     font-size: 1.3rem;
     border-radius: 1.2rem;
     font-weight:"600"
-    font-family: "Anton";
+    font-family: SBAggro;
     &:hover {
       scale: 1.2;
     }
     & span {
       display: flex;
       align-items: center;
+      font-family: SBAggro;
     }
   `;
   const onRecAudio = () => {
