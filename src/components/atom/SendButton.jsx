@@ -19,8 +19,8 @@ const StyledSend = styled.button`
   }
 `;
 
-function SendButton({ disabled, children }) {
-  return <StyledSend disabled={disabled}>{children}</StyledSend>;
+function SendButton({ sendButtonClick, disabled, children }) {
+  return <StyledSend onClick={sendButtonClick} disabled={disabled}>{children}</StyledSend>;
 }
 
 export default SendButton;
