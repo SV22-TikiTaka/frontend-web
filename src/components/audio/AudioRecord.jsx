@@ -1,7 +1,11 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useImperativeHandle, forwardRef } from "react";
 import styled from "styled-components";
 import { AiFillAudio, AiFillCaretRight } from "react-icons/ai";
-function AudioRecord() {
+import axios from 'axios';
+
+const sendTextCommentUrl = process.env.REACT_APP_API_URL + "comments/voice";
+
+function AudioRecord({question_id}, ref) {
   const [stream, setStream] = useState();
   const [media, setMedia] = useState();
   const [onRec, setOnRec] = useState(true);
@@ -17,10 +21,7 @@ function AudioRecord() {
     margin-right: 15px;
     margin-top: 30px;
     padding: 1rem auto;
-
-         
-         
-background-color: transparent;
+    background-color: transparent;
     color: black;
     font-size: 1.3rem;
     border-radius: 1.2rem;
@@ -49,7 +50,7 @@ background-color: transparent;
       setSource(source);
       source.connect(analyser);
       analyser.connect(audioCtx.destination);
-    }
+      }
     // 마이크 사용 권한 획득
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const mediaRecorder = new MediaRecorder(stream);
@@ -104,18 +105,15 @@ background-color: transparent;
       URL.createObjectURL(audioUrl); // 출력된 링크에서 녹음된 오디오 확인 가능
     }
 
-    // File 생성자를 사용해 파일로 변환
-    const sound = new File([audioUrl], "soundBlob", {
-      lastModified: new Date().getTime(),
-      type: "audio",
-    });
-
     // 😀😀😀
     setDisabled(false);
-    console.log(sound); // File 정보 출력
   };
 
   const play = () => {
+    if (!audioUrl) {
+      alert("녹음한 음성이 없습니다!");
+      return;
+    }
     const audio = new Audio(URL.createObjectURL(audioUrl)); // 여기에서 출력된 링크에서 녹음된 오디오 확인가능
     audio.loop = false;
     audio.volume = 1;
@@ -123,6 +121,36 @@ background-color: transparent;
     console.log(audio); //이걸 서버로 보내면 될꺼같은데,,
   };
 
+  function postSoundFileToBack() {
+    if (!audioUrl) {
+      alert("녹음한 음성이 없습니다!");
+      return;
+    }
+    const formData = new FormData();
+    // File 생성자를 사용해 파일로 변환
+    const sound = new File([audioUrl], "soundBlob", {
+      lastModified: new Date().getTime(),
+      type: "audio/webm",
+    });
+    formData.append('file', sound);
+    formData.append('question_id', question_id);
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'multipart/form-data',
+    };
+    axios
+      .post(sendTextCommentUrl, formData, headers)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => console.log(error));
+  }
+
+  // 부모 컴포넌트에서 아래 함수들을 참조할수있음
+  useImperativeHandle(ref, () => ({
+    postSoundFileToBack: () => postSoundFileToBack(),
+  }));
+  
   // 😀😀😀
   return (
     <>
@@ -138,4 +166,5 @@ background-color: transparent;
   );
 }
 
-export default AudioRecord;
+
+export default forwardRef(AudioRecord);

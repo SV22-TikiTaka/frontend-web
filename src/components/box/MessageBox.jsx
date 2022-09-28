@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import SendButton from "../atom/SendButton";
 import TextArea from "../atom/TextArea";
@@ -94,6 +94,7 @@ function MessageBox() {
     message: "",
   });
   const [currentFocus, setCurrentFocus] = useState("코멘트");
+  const audioRef = useRef();
   const [visible, setVisible] = useState(0); // 0: 코멘트 1: 음성
   const goComment = () => {
     setVisible(0);
@@ -103,10 +104,19 @@ function MessageBox() {
     setVisible(1);
     setCurrentFocus("음성");
   };
+
+  const sendTextButtonClick = () => {
+    console.log('helloText');
+  };
+
+  const sendSoundButtonClick = () => {
+    audioRef.current.postSoundFileToBack();
+  };
+
   return (
     <>
       <AnimatePresence mode={"wait"}>
-        {visible == 0 ? (
+        {visible === 0 ? (
           <StyledContainer
             variants={container}
             initial="invisible"
@@ -136,7 +146,11 @@ function MessageBox() {
               onChange={(e) => setInput({ ...input, message: e.target.value })}
             ></TextArea>
 
-            <SendButton>SEND!</SendButton>
+            <SendButton
+              sendButtonClick={()=>{sendTextButtonClick()}}
+            >
+              SEND!
+            </SendButton>
           </StyledContainer>
         ) : (
           <StyledContainer
@@ -162,21 +176,23 @@ function MessageBox() {
                 <StyledInfo>The question goes here.</StyledInfo>
               </InfoContainer>
             </StyledHeader>
-            <AudioRecord />
+            <AudioRecord ref={audioRef} question_id={1 /* 변수로 바꾸기 */ } />
 
-            <SendButton>SEND!</SendButton>
+            <SendButton sendButtonClick={() => { sendSoundButtonClick() }} >
+              SEND!
+            </SendButton>
           </StyledContainer>
         )}
       </AnimatePresence>
       <Buttons>
         <button
-          style={{ color: currentFocus == "코멘트" ? "yellow" : "white" }}
+          style={{ color: currentFocus === "코멘트" ? "yellow" : "white" }}
           onClick={goComment}
         >
           코멘트
         </button>
         <button
-          style={{ color: currentFocus == "음성" ? "yellow" : "white" }}
+          style={{ color: currentFocus === "음성" ? "yellow" : "white" }}
           onClick={goSound}
         >
           음성
