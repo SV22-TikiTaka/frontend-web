@@ -1,4 +1,5 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AiFillAudio, AiFillCaretRight } from "react-icons/ai";
 import axios from 'axios';
@@ -13,7 +14,8 @@ function AudioRecord({question_id}, ref) {
   const [analyser, setAnalyser] = useState();
   const [audioUrl, setAudioUrl] = useState();
   const [disabled, setDisabled] = useState(true);
-
+  const navigate = useNavigate();
+  
   const Button = styled.button`
     padding: 10px 20px;
     border-radius: 15px;
@@ -141,8 +143,9 @@ function AudioRecord({question_id}, ref) {
     };
     axios
       .post(sendSoundCommentUrl, formData, headers)
-      .then(response => {
-        console.log(response);
+      .then(() => {
+        alert("전송완료!");
+        navigate('/');//메인페이지로 이동
       })
       .catch(error => console.log(error));
   }

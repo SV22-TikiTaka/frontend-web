@@ -180,8 +180,9 @@ function MessageBox() {
     console.log(data);
     axios
       .post(sendTextCommentUrl, data)
-      .then(response => {
-        console.log(response);
+      .then(() => {
+        alert("전송완료!");
+        navigate('/');//메인페이지로 이동
       })
       .catch(error => console.log(error));
   };
