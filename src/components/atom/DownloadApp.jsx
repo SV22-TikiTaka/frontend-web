@@ -4,7 +4,6 @@ import styled from "styled-components";
 const StyledDownload = styled.button`
   width: 12rem;
   height: 3rem;
-  margin: 3rem 1rem;
   padding: 1rem auto;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   background-color: transparent;
@@ -13,10 +12,6 @@ const StyledDownload = styled.button`
   font-size: 1rem;
   border-radius: 1.1rem;
   font-family: SBAggro;
-  position: fixed;
-  bottom: 3rem;
-  left: 50%;
-  margin-left: -6rem;
 `;
 
 function DownloadApp({ disabled, children }) {
