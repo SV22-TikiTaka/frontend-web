@@ -10,6 +10,7 @@ const StyledSend = styled.button`
   background-color: black;
   border: none;
   color: white;
+  font-weight: semi-bold;
   font-size: 0.9rem;
   border-radius: 1.2rem;
   font-family: SBAggro;
