@@ -13,9 +13,13 @@
   height: 100vh;
 }
 
+button {
+  font-family: 'SBAggro';
+}
+
 @font-face {
   font-family: 'SBAggro';
-src: url('./fonts/SBAggroL.ttf');
+src: url('./fonts/SBAggroM.ttf');
 font-style: normal;
 font-weight: 400;
 }

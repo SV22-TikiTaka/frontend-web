@@ -42,31 +42,56 @@ const StyledInfo = styled(motion.div)`
   margin-bottom: 0.5rem;
 `;
 
-const Buttons = styled.div`
-  position: absolute;
-  top: 100px;
-  left: 50%;
-  transform: translate(-50%, -50%);
+const StyledOptionDiv = styled.div`
   background: transparent;
   border: none;
+  margin-top: 10px;
+  
   & button {
-    width: 100px;
+    width: 350px;
     background-color: #ff7979;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: semi-bold;
+    font-familly: SBAgrro;
     height: 50px;
     border: none;
     border-radius: 15px;
     padding: 15px 15px;
-    margin: 15px;
+    margin: 10px;
     cursor: pointer;
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.25);
+    color: white;
     :hover {
       scale: 1.05;
       opacity: 0.8;
     }
   }
 `;
+
+// const Buttons = styled.div`
+//   top: 100px;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   background: transparent;
+//   border: none;
+//   & button {
+//     width: 100px;
+//     background-color: #ff7979;
+//     font-size: 18px;
+//     font-weight: 700;
+//     height: 50px;
+//     border: none;
+//     border-radius: 15px;
+//     padding: 15px 15px;
+//     margin: 15px;
+//     cursor: pointer;
+//     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.25);
+//     :hover {
+//       scale: 1.05;
+//       opacity: 0.8;
+//     }
+//   }
+// `;
 
 const container = {
   invisible: (isBack) => ({
@@ -93,17 +118,21 @@ const container = {
 
 const sendTextCommentUrl = process.env.REACT_APP_API_URL + "comments/text";
 const getQuestionDataUrl = process.env.REACT_APP_API_URL + "questions/url/?question_id=";
+const getVoteOptionsUrl = process.env.REACT_APP_API_URL + "questions/vote_options/?question_id=";
 const getUserInfoUrl = process.env.REACT_APP_API_URL + "users/";
+const updateVoteOptionUrl = process.env.REACT_APP_API_URL + "comments/vote/";
 
 function MessageBox() {
   const [input, setInput] = useState('');
   const [username, setUsername] = useState();
   const [imgUrl, setImgUrl] = useState();
   const [questionContent, setQuestionContent] = useState();
+  const [voteOptions, setVoteOptions] = useState([]);
   // const [currentFocus, setCurrentFocus] = useState("코멘트");
+  const [selectOption, setSelectOption] = useState();
   const audioRef = useRef();
   const question_id = useRef();
-  const [visible, setVisible] = useState(); // 0: 코멘트 1: 음성
+  const [visible, setVisible] = useState(); // 0: 코멘트 1: 음성 2: 투표
   const param = useParams();
   const navigate = useNavigate();
 
@@ -120,6 +149,9 @@ function MessageBox() {
   const goSound = () => {
     setVisible(1);
     // setCurrentFocus("음성");
+  };
+  const goVote = () => {
+    setVisible(2);
   };
 
   const setQuestionData = () => {
@@ -142,12 +174,32 @@ function MessageBox() {
         else if (commentType === "sound") {
           goSound();
         }
+        else if (commentType === "vote") {
+          settingOptions();
+          goVote();
+        }
         setQuestionContent(data.content);
       })
-      .catch(error => {
+      .catch(() => {
         goToMainPage();
       });
   };
+
+  function settingOptions() {
+    axios
+      .get(getVoteOptionsUrl+question_id.current)
+      .then(response => {
+        const options = response.data;
+        const optionsData = [];
+        options.map(element => {
+          optionsData.push({ "id": element.id, "content": element.content })
+        });
+        setVoteOptions(optionsData);
+      })
+      .catch(() => {
+        goToMainPage();
+      })
+  }
 
   // url의 username이 옳지 않으면 메인페이지로 이동
   function checkInstaId(user_id){
@@ -191,6 +243,24 @@ function MessageBox() {
     audioRef.current.postSoundFileToBack();
   };
 
+  const sendVoteButtonClick = () => {
+    if (selectOption === undefined) {
+      alert("선택지를 골라주세요!");
+      return;
+    }
+    updateVoteOptions(selectOption);
+  };
+  const updateVoteOptions = (vote_comment_id) => {
+    axios
+      .put(updateVoteOptionUrl+vote_comment_id)
+      .then(() => {
+        alert("전송완료!");
+        navigate('/');//메인페이지로 이동
+      })
+      .catch(error => console.log(error));
+  }
+  
+
   return (
     <>
       <AnimatePresence mode={"wait"}>
@@ -230,7 +300,7 @@ function MessageBox() {
               SEND!
             </SendButton>
           </StyledContainer>
-        ) : (
+        ) : visible === 1 ? (
           <StyledContainer
             variants={container}
             initial="invisible"
@@ -260,6 +330,45 @@ function MessageBox() {
               SEND!
             </SendButton>
           </StyledContainer>
+          ) : (
+            <StyledContainer
+              variants={container}
+              initial="invisible"
+              animate="visible"
+              exit="exit"
+              key={visible}
+            >
+              <StyledHeader>
+                <img
+                  style={{
+                    marginLeft: "2rem",
+                    width: "3.8rem",
+                    height: "3.8rem",
+                    flex: "1",
+                  }}
+                  src={imgUrl}
+                  alt="img"
+                />
+                <InfoContainer>
+                  <StyledInfo>{username}</StyledInfo>
+                  <StyledInfo>{questionContent}</StyledInfo>
+                </InfoContainer>
+              </StyledHeader>
+                <StyledOptionDiv>
+                  {voteOptions.map((element) => (
+                    <button
+                      style={{ 'background-color': selectOption === element.id ? '#779874' : "#FF8F8F" }}
+                      onClick={() => { setSelectOption(element.id) }}
+                      key={element.id}
+                    >
+                      {element.content}
+                    </button>
+                  ))}
+              </StyledOptionDiv>
+              <SendButton sendButtonClick={() => { sendVoteButtonClick() }} >
+                SEND!
+              </SendButton>
+            </StyledContainer>
         )}
       </AnimatePresence>
       {/* <Buttons>
