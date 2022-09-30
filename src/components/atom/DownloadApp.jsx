@@ -21,10 +21,23 @@ const StyledDownload = styled.button`
   :hover {
     transform: scale(1.03);
   }
+  @media screen and (max-width: 768px) {
+    margin-left: 50px;
+    width: 15rem;
+    height: 4rem;
+    font-size: 1.2rem;
+  }
 `;
 
 function DownloadApp({ disabled, children }) {
-  return <StyledDownload disabled={disabled}>{children}</StyledDownload>;
+  return (
+    <StyledDownload
+      onClick={() => alert("아직 준비중입니다...")}
+      disabled={disabled}
+    >
+      {children}
+    </StyledDownload>
+  );
 }
 
 export default DownloadApp;
